@@ -331,7 +331,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
 --- cmake/java.cmake	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
-+++ cmake/java.cmake	(date 1599464835896)
++++ cmake/java.cmake	(date 1599468483658)
 @@ -37,6 +37,7 @@
  endif()
  
@@ -340,7 +340,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
  set(JAVA_PACKAGE com.google.ortools)
  set(JAVA_PACKAGE_PATH src/main/java/com/google/ortools)
  set(JAVA_RESOURCES_PATH src/main/resources)
-@@ -146,9 +147,7 @@
+@@ -146,9 +147,8 @@
      $<TARGET_FILE:jniortools>
      $<$<NOT:$<PLATFORM_ID:Windows>>:$<TARGET_SONAME_FILE:${PROJECT_NAME}>>
      ${JAVA_RESOURCES_PATH}/${NATIVE_IDENTIFIER}/
@@ -348,10 +348,11 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 -  COMMAND ${MAVEN_EXECUTABLE} package
 -  COMMAND ${MAVEN_EXECUTABLE} install
 +  COMMAND ${MAVEN_EXECUTABLE} clean package -Prelease
++  COMMAND ${MAVEN_EXECUTABLE} deploy -Prelease
    WORKING_DIRECTORY java/${JAVA_NATIVE_PROJECT})
  
  ##########################
-@@ -173,9 +172,7 @@
+@@ -173,9 +173,8 @@
    java/${JAVA_PROJECT}/pom.xml
    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/ortools/java/com src/main/java/com
    COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/ortools/java/Loader.java ${JAVA_PACKAGE_PATH}/
@@ -359,6 +360,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 -  COMMAND ${MAVEN_EXECUTABLE} package
 -  COMMAND ${MAVEN_EXECUTABLE} install
 +  COMMAND ${MAVEN_EXECUTABLE} clean package -Prelease
++  COMMAND ${MAVEN_EXECUTABLE} deploy -Prelease
    WORKING_DIRECTORY java/${JAVA_PROJECT})
  add_dependencies(java_package java_native_package Java${PROJECT_NAME}_proto)
  
