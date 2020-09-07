@@ -6,6 +6,7 @@ The release process needs some personal information for signing JARs and connect
 These pieces of information are provided to the `env_file` environment file. A template id provided in file `template_env_file`
 
 Below is a description of the variables to be provided:
+
 | -------------- | -------------------------------------- |
 | SONATYPE_USER  | Sonatype username                      |
 | SONATYPE_PASS  | Sonatype associated password           |
