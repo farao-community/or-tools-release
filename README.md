@@ -19,7 +19,7 @@ You can find your GPG key with following command:
 gpg2 --list-keys
 ```
 
-The release process also need to import your GPG key in the created container. For that export the associated GPG key to a file named `private.key` in release directory.
+The release process also need to import your GPG key in the created container. Though you will need to export the associated GPG key to a file named `private.key` in release directory.
 
 ```
 gpg --export-secret-keys <GPG_ID> > private.key

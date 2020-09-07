@@ -1,223 +1,10 @@
-Index: ortools/java/pom.xml.in
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- ortools/java/pom.xml.in	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
-+++ ortools/java/pom.xml.in	(date 1598631311445)
-@@ -5,7 +5,7 @@
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
- <modelVersion>4.0.0</modelVersion>
- 
--<groupId>@JAVA_PACKAGE@</groupId>
-+<groupId>@MAVEN_GROUP_ID@</groupId>
- <artifactId>@JAVA_PROJECT@</artifactId>
- <version>@PROJECT_VERSION@</version>
- <packaging>jar</packaging>
-@@ -23,16 +23,10 @@
- 
- <developers>
-   <developer>
--    <name>Corentin "Mizux" Le Molgat</name>
--    <email>corentinl@google.com</email>
--    <organization>Google LLC</organization>
--    <organizationUrl>http://www.google.com</organizationUrl>
--  </developer>
--  <developer>
--    <name>Laurent Perron</name>
--    <email>lperron@google.com</email>
--    <organization>Google LLC</organization>
--    <organizationUrl>http://www.google.com</organizationUrl>
-+    <name>Sebastien MURGEY</name>
-+    <email>sebastien.murgey@rte-france.com</email>
-+    <organization>RTE</organization>
-+    <organizationUrl>http://www.rte-france.com</organizationUrl>
-   </developer>
- </developers>
- 
-Index: cmake/java.cmake
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- cmake/java.cmake	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
-+++ cmake/java.cmake	(date 1598963255302)
-@@ -37,6 +37,7 @@
- endif()
- 
- # Needed by java/CMakeLists.txt
-+set(MAVEN_GROUP_ID com.farao-community.ortools)
- set(JAVA_PACKAGE com.google.ortools)
- set(JAVA_PACKAGE_PATH src/main/java/com/google/ortools)
- set(JAVA_RESOURCES_PATH src/main/resources)
-@@ -173,11 +174,10 @@
-   java/${JAVA_PROJECT}/pom.xml
-   COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/ortools/java/com src/main/java/com
-   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/ortools/java/Loader.java ${JAVA_PACKAGE_PATH}/
--  COMMAND ${MAVEN_EXECUTABLE} compile
--  COMMAND ${MAVEN_EXECUTABLE} package
--  COMMAND ${MAVEN_EXECUTABLE} install
-+  COMMAND ${MAVEN_EXECUTABLE} clean package -Prelease
-+  COMMAND ${MAVEN_EXECUTABLE} deploy -Prelease
-   WORKING_DIRECTORY java/${JAVA_PROJECT})
- add_dependencies(java_package java_native_package Java${PROJECT_NAME}_proto)
- 
- #################
- ##  Java Test  ##
-Index: ortools/java/pom-test.xml.in
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
---- ortools/java/pom-test.xml.in	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
-+++ ortools/java/pom-test.xml.in	(date 1598958480281)
-@@ -5,14 +5,14 @@
-   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
- <modelVersion>4.0.0</modelVersion>
- 
--<groupId>@JAVA_PACKAGE@</groupId>
-+<groupId>@MAVEN_GROUP_ID@</groupId>
- <artifactId>@JAVA_TEST_PROJECT@</artifactId>
- <version>@PROJECT_VERSION@</version>
- <packaging>jar</packaging>
- 
--<name>${project.groupId}:${project.artifactId}</name>
-+<name>FARAO deployment of Google OR-Tools</name>
- <description>Google OR-Tools Java project.</description>
--<url>https://github.com/google/or-tools</url>
-+<url>http://www.farao-community.com</url>
- 
- <licenses>
-   <license>
-@@ -23,31 +23,19 @@
- 
- <developers>
-   <developer>
--    <name>Corentin "Mizux" Le Molgat</name>
--    <email>corentinl@google.com</email>
--    <organization>Google LLC</organization>
--    <organizationUrl>http://www.google.com</organizationUrl>
--  </developer>
--  <developer>
--    <name>Laurent Perron</name>
--    <email>lperron@google.com</email>
--    <organization>Google LLC</organization>
--    <organizationUrl>http://www.google.com</organizationUrl>
-+    <name>Sebastien MURGEY</name>
-+    <email>sebastien.murgey@rte-france.com</email>
-+    <organization>RTE</organization>
-+    <organizationUrl>http://www.rte-france.com</organizationUrl>
-   </developer>
- </developers>
- 
- <scm>
--  <connection>scm:git:git://github.com/google/or-tools.git</connection>
--  <developerConnection>scm:git:ssh://github.com:google/or-tools.git</developerConnection>
--  <url>http://github.com/google/or-tools/tree/master</url>
--  <tag>HEAD</tag>
-+  <connection>scm:git:git://github.com/farao-community/or-tools.git</connection>
-+  <developerConnection>scm:git:https://github.com/farao-community/or-tools.git</developerConnection>
-+  <url>http://github.com/farao-community/or-tools/tree/master</url>
- </scm>
- 
--<issueManagement>
--  <system>GitHub Issues</system>
--  <url>http://github.com/google/or-tools/issues</url>
--</issueManagement>
--
- <properties>
-   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-   <maven.compiler.source>1.8</maven.compiler.source>
-@@ -56,7 +44,7 @@
- 
- <dependencies>
-   <dependency>
--    <groupId>@JAVA_PACKAGE@</groupId>
-+    <groupId>@MAVEN_GROUP_ID@</groupId>
-     <artifactId>@JAVA_PROJECT@</artifactId>
-     <version>@PROJECT_VERSION@</version>
-     <type>jar</type>
-@@ -100,4 +88,73 @@
-     </plugin>
-   </plugins>
- </build>
-+
-+<profiles>
-+  <profile>
-+    <id>release</id>
-+    <activation>
-+      <activeByDefault>false</activeByDefault>
-+    </activation>
-+    <build>
-+      <plugins>
-+        <plugin>
-+          <groupId>org.apache.maven.plugins</groupId>
-+          <artifactId>maven-gpg-plugin</artifactId>
-+          <version>1.6</version>
-+          <executions>
-+            <execution>
-+              <phase>verify</phase>
-+              <goals>
-+                <goal>sign</goal>
-+              </goals>
-+              <configuration>
-+                <gpgArguments>
-+                  <arg>--pinentry-mode</arg>
-+                  <arg>loopback</arg>
-+                </gpgArguments>
-+              </configuration>
-+            </execution>
-+          </executions>
-+        </plugin>
-+        <plugin>
-+          <groupId>org.apache.maven.plugins</groupId>
-+          <artifactId>maven-javadoc-plugin</artifactId>
-+          <version>3.2.0</version>
-+          <executions>
-+            <execution>
-+              <phase>package</phase>
-+              <goals>
-+                <goal>jar</goal>
-+              </goals>
-+            </execution>
-+          </executions>
-+        </plugin>
-+        <plugin>
-+          <groupId>org.apache.maven.plugins</groupId>
-+          <artifactId>maven-source-plugin</artifactId>
-+          <version>3.0.1</version>
-+          <executions>
-+            <execution>
-+              <phase>package</phase>
-+              <goals>
-+                <goal>jar-no-fork</goal>
-+                <goal>test-jar-no-fork</goal>
-+              </goals>
-+            </execution>
-+          </executions>
-+        </plugin>
-+      </plugins>
-+    </build>
-+    <distributionManagement>
-+      <snapshotRepository>
-+        <id>ossrh</id>
-+        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-+      </snapshotRepository>
-+      <repository>
-+        <id>ossrh</id>
-+        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-+      </repository>
-+    </distributionManagement>
-+  </profile>
-+</profiles>
- </project>
 Index: ortools/java/pom-local.xml.in
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
 --- ortools/java/pom-local.xml.in	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
-+++ ortools/java/pom-local.xml.in	(date 1598963255337)
++++ ortools/java/pom-local.xml.in	(date 1599133922445)
 @@ -5,14 +5,14 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
  <modelVersion>4.0.0</modelVersion>
@@ -369,7 +156,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 <+>UTF-8
 ===================================================================
 --- ortools/java/pom-native.xml.in	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
-+++ ortools/java/pom-native.xml.in	(date 1598963269202)
++++ ortools/java/pom-native.xml.in	(date 1598974944360)
 @@ -5,14 +5,14 @@
    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
  <modelVersion>4.0.0</modelVersion>
@@ -428,6 +215,227 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
    <maven.compiler.source>1.8</maven.compiler.source>
 @@ -89,4 +77,73 @@
+     </plugin>
+   </plugins>
+ </build>
++
++<profiles>
++  <profile>
++    <id>release</id>
++    <activation>
++      <activeByDefault>false</activeByDefault>
++    </activation>
++    <build>
++      <plugins>
++        <plugin>
++          <groupId>org.apache.maven.plugins</groupId>
++          <artifactId>maven-gpg-plugin</artifactId>
++          <version>1.6</version>
++          <executions>
++            <execution>
++              <phase>verify</phase>
++              <goals>
++                <goal>sign</goal>
++              </goals>
++              <configuration>
++                <gpgArguments>
++                  <arg>--pinentry-mode</arg>
++                  <arg>loopback</arg>
++                </gpgArguments>
++              </configuration>
++            </execution>
++          </executions>
++        </plugin>
++        <plugin>
++          <groupId>org.apache.maven.plugins</groupId>
++          <artifactId>maven-javadoc-plugin</artifactId>
++          <version>3.2.0</version>
++          <executions>
++            <execution>
++              <phase>package</phase>
++              <goals>
++                <goal>jar</goal>
++              </goals>
++            </execution>
++          </executions>
++        </plugin>
++        <plugin>
++          <groupId>org.apache.maven.plugins</groupId>
++          <artifactId>maven-source-plugin</artifactId>
++          <version>3.0.1</version>
++          <executions>
++            <execution>
++              <phase>package</phase>
++              <goals>
++                <goal>jar-no-fork</goal>
++                <goal>test-jar-no-fork</goal>
++              </goals>
++            </execution>
++          </executions>
++        </plugin>
++      </plugins>
++    </build>
++    <distributionManagement>
++      <snapshotRepository>
++        <id>ossrh</id>
++        <url>https://oss.sonatype.org/content/repositories/snapshots</url>
++      </snapshotRepository>
++      <repository>
++        <id>ossrh</id>
++        <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
++      </repository>
++    </distributionManagement>
++  </profile>
++</profiles>
+ </project>
+Index: ortools/java/pom.xml.in
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ortools/java/pom.xml.in	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
++++ ortools/java/pom.xml.in	(date 1598974944359)
+@@ -5,7 +5,7 @@
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ 
+-<groupId>@JAVA_PACKAGE@</groupId>
++<groupId>@MAVEN_GROUP_ID@</groupId>
+ <artifactId>@JAVA_PROJECT@</artifactId>
+ <version>@PROJECT_VERSION@</version>
+ <packaging>jar</packaging>
+@@ -23,16 +23,10 @@
+ 
+ <developers>
+   <developer>
+-    <name>Corentin "Mizux" Le Molgat</name>
+-    <email>corentinl@google.com</email>
+-    <organization>Google LLC</organization>
+-    <organizationUrl>http://www.google.com</organizationUrl>
+-  </developer>
+-  <developer>
+-    <name>Laurent Perron</name>
+-    <email>lperron@google.com</email>
+-    <organization>Google LLC</organization>
+-    <organizationUrl>http://www.google.com</organizationUrl>
++    <name>Sebastien MURGEY</name>
++    <email>sebastien.murgey@rte-france.com</email>
++    <organization>RTE</organization>
++    <organizationUrl>http://www.rte-france.com</organizationUrl>
+   </developer>
+ </developers>
+ 
+Index: cmake/java.cmake
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- cmake/java.cmake	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
++++ cmake/java.cmake	(date 1599464835896)
+@@ -37,6 +37,7 @@
+ endif()
+ 
+ # Needed by java/CMakeLists.txt
++set(MAVEN_GROUP_ID com.farao-community.ortools)
+ set(JAVA_PACKAGE com.google.ortools)
+ set(JAVA_PACKAGE_PATH src/main/java/com/google/ortools)
+ set(JAVA_RESOURCES_PATH src/main/resources)
+@@ -146,9 +147,7 @@
+     $<TARGET_FILE:jniortools>
+     $<$<NOT:$<PLATFORM_ID:Windows>>:$<TARGET_SONAME_FILE:${PROJECT_NAME}>>
+     ${JAVA_RESOURCES_PATH}/${NATIVE_IDENTIFIER}/
+-  COMMAND ${MAVEN_EXECUTABLE} compile
+-  COMMAND ${MAVEN_EXECUTABLE} package
+-  COMMAND ${MAVEN_EXECUTABLE} install
++  COMMAND ${MAVEN_EXECUTABLE} clean package -Prelease
+   WORKING_DIRECTORY java/${JAVA_NATIVE_PROJECT})
+ 
+ ##########################
+@@ -173,9 +172,7 @@
+   java/${JAVA_PROJECT}/pom.xml
+   COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/ortools/java/com src/main/java/com
+   COMMAND ${CMAKE_COMMAND} -E copy ${PROJECT_SOURCE_DIR}/ortools/java/Loader.java ${JAVA_PACKAGE_PATH}/
+-  COMMAND ${MAVEN_EXECUTABLE} compile
+-  COMMAND ${MAVEN_EXECUTABLE} package
+-  COMMAND ${MAVEN_EXECUTABLE} install
++  COMMAND ${MAVEN_EXECUTABLE} clean package -Prelease
+   WORKING_DIRECTORY java/${JAVA_PROJECT})
+ add_dependencies(java_package java_native_package Java${PROJECT_NAME}_proto)
+ 
+Index: ortools/java/pom-test.xml.in
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ortools/java/pom-test.xml.in	(revision a0a56698ba8fd07b7f84aee4fc45d891a8cd9828)
++++ ortools/java/pom-test.xml.in	(date 1598974944360)
+@@ -5,14 +5,14 @@
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+ <modelVersion>4.0.0</modelVersion>
+ 
+-<groupId>@JAVA_PACKAGE@</groupId>
++<groupId>@MAVEN_GROUP_ID@</groupId>
+ <artifactId>@JAVA_TEST_PROJECT@</artifactId>
+ <version>@PROJECT_VERSION@</version>
+ <packaging>jar</packaging>
+ 
+-<name>${project.groupId}:${project.artifactId}</name>
++<name>FARAO deployment of Google OR-Tools</name>
+ <description>Google OR-Tools Java project.</description>
+-<url>https://github.com/google/or-tools</url>
++<url>http://www.farao-community.com</url>
+ 
+ <licenses>
+   <license>
+@@ -23,31 +23,19 @@
+ 
+ <developers>
+   <developer>
+-    <name>Corentin "Mizux" Le Molgat</name>
+-    <email>corentinl@google.com</email>
+-    <organization>Google LLC</organization>
+-    <organizationUrl>http://www.google.com</organizationUrl>
+-  </developer>
+-  <developer>
+-    <name>Laurent Perron</name>
+-    <email>lperron@google.com</email>
+-    <organization>Google LLC</organization>
+-    <organizationUrl>http://www.google.com</organizationUrl>
++    <name>Sebastien MURGEY</name>
++    <email>sebastien.murgey@rte-france.com</email>
++    <organization>RTE</organization>
++    <organizationUrl>http://www.rte-france.com</organizationUrl>
+   </developer>
+ </developers>
+ 
+ <scm>
+-  <connection>scm:git:git://github.com/google/or-tools.git</connection>
+-  <developerConnection>scm:git:ssh://github.com:google/or-tools.git</developerConnection>
+-  <url>http://github.com/google/or-tools/tree/master</url>
+-  <tag>HEAD</tag>
++  <connection>scm:git:git://github.com/farao-community/or-tools.git</connection>
++  <developerConnection>scm:git:https://github.com/farao-community/or-tools.git</developerConnection>
++  <url>http://github.com/farao-community/or-tools/tree/master</url>
+ </scm>
+ 
+-<issueManagement>
+-  <system>GitHub Issues</system>
+-  <url>http://github.com/google/or-tools/issues</url>
+-</issueManagement>
+-
+ <properties>
+   <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+   <maven.compiler.source>1.8</maven.compiler.source>
+@@ -56,7 +44,7 @@
+ 
+ <dependencies>
+   <dependency>
+-    <groupId>@JAVA_PACKAGE@</groupId>
++    <groupId>@MAVEN_GROUP_ID@</groupId>
+     <artifactId>@JAVA_PROJECT@</artifactId>
+     <version>@PROJECT_VERSION@</version>
+     <type>jar</type>
+@@ -100,4 +88,73 @@
      </plugin>
    </plugins>
  </build>
