@@ -13,7 +13,6 @@ Below is a description of the variables to be provided:
 | SONATYPE_PASS  | Sonatype associated password           |
 | GPG_ID         | GPG key ID to be used for signing JARs |
 | GPG_PASSPHRASE | Passphrase of the GPG key              |
-| -------------- | -------------------------------------- |
 
 You can find your GPG key with following command:
 
