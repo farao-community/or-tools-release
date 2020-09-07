@@ -7,6 +7,7 @@ These pieces of information are provided to the `env_file` environment file. A t
 
 Below is a description of the variables to be provided:
 
+| Variable       | Description                            |
 | -------------- | -------------------------------------- |
 | SONATYPE_USER  | Sonatype username                      |
 | SONATYPE_PASS  | Sonatype associated password           |
