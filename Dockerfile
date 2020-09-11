@@ -1,7 +1,7 @@
-FROM fedora:31
+FROM fedora:29
 
 RUN dnf -y groupinstall "Development Tools"
-RUN dnf -y install cmake g++ swig java-1.8.0-openjdk-devel maven
+RUN dnf -y install cmake gcc-c++ swig java-1.8.0-openjdk-devel maven
 RUN git clone https://github.com/farao-community/or-tools.git
 WORKDIR /or-tools
 COPY private.key private.key
